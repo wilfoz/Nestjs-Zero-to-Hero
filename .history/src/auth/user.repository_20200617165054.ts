@@ -10,10 +10,13 @@ export class UserRepository extends Repository<User> {
     async singUp(authCredentialsDTO: AuthCredentialsDTO): Promise<void> {
         const { username, password } = authCredentialsDTO;
 
+        const salt = await bcrypt.genSalt();
+
         const user = new User();
         user.username = username;
-        user.salt = await bcrypt.genSalt();
-        user.password = await this.hashPassword(password, user.salt);
+        user.password = await this.hashPassword(password, salt);
+
+        console.log(user.password)
 
         try {
             await user.save();
