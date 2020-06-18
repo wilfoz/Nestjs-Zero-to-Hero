@@ -47,13 +47,7 @@ export class TaskRepository extends Repository<Task> {
     task.description = description;
     task.status = TaskStatus.OPEN;
     task.user = user;
-    
-    try {
-      await task.save();
-    } catch (error) {
-      this.logger.error(`Failed to get tasks for user "${user.username}", Data: ${createTaskDTO}`, error.stack);
-      throw new InternalServerErrorException()
-    }
+    await task.save();
 
     delete task.user;
     return task;

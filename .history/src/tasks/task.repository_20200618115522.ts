@@ -31,7 +31,7 @@ export class TaskRepository extends Repository<Task> {
       const tasks = await query.getMany();
       return tasks;
     } catch (error) {
-      this.logger.error(`Failed to get tasks for user "${user.username}", DTO: ${filterDTO}`, error.stack);
+      this.logger.error(`Failed to get tasks for user "${user.username}", DTO: ${filterDTO}`)
       throw new InternalServerErrorException()
     }
   }
@@ -47,13 +47,7 @@ export class TaskRepository extends Repository<Task> {
     task.description = description;
     task.status = TaskStatus.OPEN;
     task.user = user;
-    
-    try {
-      await task.save();
-    } catch (error) {
-      this.logger.error(`Failed to get tasks for user "${user.username}", Data: ${createTaskDTO}`, error.stack);
-      throw new InternalServerErrorException()
-    }
+    await task.save();
 
     delete task.user;
     return task;

@@ -14,15 +14,14 @@ import { User } from 'src/auth/user.entity';
 export class TasksController {
 
     private logger = new Logger('TasksController');
-
-    constructor(private readonly tasksService: TasksService) { };
+    
+    constructor(private readonly tasksService: TasksService) { }
 
      @Get()
      getTasks(
          @Query(ValidationPipe) filterDTO: GetTasksFilterDTO,
          @GetUser() user: User,
     ): Promise<Task[]> {
-        this.logger.verbose(`User "${user.username}" retrieving all tasks. Filters: ${JSON.stringify(filterDTO)}`);
         return this.tasksService.getTasks(filterDTO, user);
      }
 
@@ -40,8 +39,7 @@ export class TasksController {
          @Body() createTaskDTO: CreateTaskDTO,
          @GetUser() user: User
         ): Promise<Task> {
-            this.logger.verbose(`User "${user.username}" creating a tasks. Data: ${JSON.stringify(createTaskDTO)}`);
-            return this.tasksService.createTasks(createTaskDTO, user)
+         return this.tasksService.createTasks(createTaskDTO, user)
      }
 
      @Delete('/:id')

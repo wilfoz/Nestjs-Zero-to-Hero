@@ -18,7 +18,7 @@ export class TaskRepository extends Repository<Task> {
     const { status, search } = filterDTO;
     const query = this.createQueryBuilder('task');
 
-    query.where('task.userId = :userId', { userId: user.id })
+    query.where('task.userIdsdfas = :userId', { userId: user.id })
 
     if (status) {
         query.andWhere('task.status = :status', { status })
@@ -47,13 +47,7 @@ export class TaskRepository extends Repository<Task> {
     task.description = description;
     task.status = TaskStatus.OPEN;
     task.user = user;
-    
-    try {
-      await task.save();
-    } catch (error) {
-      this.logger.error(`Failed to get tasks for user "${user.username}", Data: ${createTaskDTO}`, error.stack);
-      throw new InternalServerErrorException()
-    }
+    await task.save();
 
     delete task.user;
     return task;
